@@ -1,5 +1,16 @@
-#Tonnifirg-API
-##Run swagger enditor
+Tonnifirg-API
+-------------------------------------------
+
+Run swagger enditor
+===========================================
+
+**clone the code**
+
+	git clone https://git.jarvis.home/TonniFrig/tonnifrig-api.git
+	
+**move inside the swagger directory**
+
+	cd tonnifrig-api
 
 **run using docker**
 
@@ -17,7 +28,8 @@ then open a browser at :
 
 than enjoy 
 
-##Run swagger ui -- NOT WORKING YET
+Run swagger ui -- NOT WORKING YET
+===================================================
 
 **run using docker**
 
