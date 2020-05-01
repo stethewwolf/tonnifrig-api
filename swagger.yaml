@@ -231,7 +231,7 @@ paths:
       - "repository"
       summary: "Get products List"
       description: "Returns all products"
-      operationId: "getProducts"
+      operationId: "getRepositories"
       produces:
       - "application/xml"
       - "application/json"
@@ -385,7 +385,7 @@ paths:
       - "repository"
       summary: "Finds Product by Name"
       description: "find product by name"
-      operationId: "findProductsByName"
+      operationId: "findRepositoryByName"
       produces:
       - "application/xml"
       - "application/json"
