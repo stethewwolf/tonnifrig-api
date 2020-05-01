@@ -12,7 +12,7 @@ info:
 host: "petstore.swagger.io"
 basePath: "/v2"
 tags:
-- name: "pet"
+- name: "product"
   description: "Everything about your Pets"
   externalDocs:
     description: "Find out more"
@@ -29,6 +29,26 @@ schemes:
 - "http"
 paths:
   /product:
+    get:
+      tags:
+      - "product"
+      summary: "Get products List"
+      description: "Returns all products"
+      operationId: "getProducts"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Product not found"
+      security:
+      - api_key: []
     post:
       tags:
       - "product"
@@ -55,55 +75,22 @@ paths:
       - product_auth:
         - "write:products"
         - "read:products"
-    put:
-      tags:
-      - "product"
-      summary: "Update an existing product"
-      description: ""
-      operationId: "updateProduct"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Product object that needs to be added to the database"
-        required: true
-        schema:
-          $ref: "#/definitions/Product"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Product not found"
-        "405":
-          description: "Validation exception"
-      security:
-      - product_auth:
-        - "write:products"
-        - "read:products"
-  /product/findByTags:
+  /product/findByName:
     get:
       tags:
       - "product"
-      summary: "Finds Product by tags"
-      description: "Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."
-      operationId: "findProductsByTags"
+      summary: "Finds Product by Name"
+      description: "find product by name"
+      operationId: "findProductsByName"
       produces:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "tags"
+      - name: "name"
         in: "query"
         description: "Tags to filter by"
         required: true
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
+        type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -117,7 +104,35 @@ paths:
       - product_auth:
         - "write:products"
         - "read:products"
-      deprecated: true
+  /product/findByCode:
+    get:
+      tags:
+      - "product"
+      summary: "Finds Product by Name"
+      description: "find product by name"
+      operationId: "findProductsByCode"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "Tags to filter by"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid tag value"
+      security:
+      - product_auth:
+        - "write:products"
+        - "read:products"
   /product/{productId}:
     get:
       tags:
@@ -211,6 +226,26 @@ paths:
         - "write:products"
         - "read:products"
   /repository:
+    get:
+      tags:
+      - "repository"
+      summary: "Get products List"
+      description: "Returns all products"
+      operationId: "getProducts"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Product not found"
+      security:
+      - api_key: []
     post:
       tags:
       - "repository"
@@ -233,36 +268,6 @@ paths:
       responses:
         "405":
           description: "Invalid input"
-      security:
-      - repository_auth:
-        - "write:repositories"
-        - "read:repositories"
-    put:
-      tags:
-      - "repository"
-      summary: "Update an existing repository"
-      description: ""
-      operationId: "updateRepository"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Repository object that needs to be added to the database"
-        required: true
-        schema:
-          $ref: "#/definitions/Product"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Product not found"
-        "405":
-          description: "Validation exception"
       security:
       - repository_auth:
         - "write:repositories"
@@ -327,7 +332,7 @@ paths:
         - "read:repositories"
     delete:
       tags:
-      - "product"
+      - "repository"
       summary: "Deletes a product"
       description: ""
       operationId: "deleteRepository"
@@ -339,7 +344,7 @@ paths:
         in: "header"
         required: false
         type: "string"
-      - name: "productId"
+      - name: "repositoryId"
         in: "path"
         description: "Product id to delete"
         required: true
@@ -374,6 +379,35 @@ paths:
       responses:
         default:
           description: "successful operation"
+  /repository/findByName:
+    get:
+      tags:
+      - "repository"
+      summary: "Finds Product by Name"
+      description: "find product by name"
+      operationId: "findProductsByName"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "Tags to filter by"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Repository"
+        "400":
+          description: "Invalid tag value"
+      security:
+      - product_auth:
+        - "write:products"
+        - "read:products"
   /user/createWithArray:
     post:
       tags:
@@ -583,6 +617,9 @@ definitions:
         format: "date-time"
     xml:
       name: "Product"
+  ProductList:
+    type: "object"
+    
   Repository:
     type: "object"
     properties:
